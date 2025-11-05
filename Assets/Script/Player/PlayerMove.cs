@@ -45,7 +45,7 @@ public class PlayerMove : MonoBehaviour
 
 	private void Update()
 	{
-		if(GameManager.instance.gameState != GameState.Walking) return;
+		if(!GameStateManager.Instance.Is(GameState.Walking)) return;
 		if(waitMove) return;
 		// 冷却时间控制
 		if (Time.time - lastMoveTime < inputCoolDown) return;

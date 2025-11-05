@@ -149,7 +149,6 @@ GameObject:
   - component: {fileID: 8198881132523678253}
   - component: {fileID: 2556239456205568444}
   - component: {fileID: 8333522096212196288}
-  - component: {fileID: 7786306892935454746}
   m_Layer: 5
   m_Name: Symbol
   m_TagString: Untagged
@@ -249,10 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   symbol: {fileID: 0}
-  image: {fileID: 9052331476981374681}
-  keepTimeText: {fileID: 7579157612928854609}
-  keepTime: 0
-  isKeepBooster: 0
+  icon: {fileID: 9052331476981374681}
 --- !u!114 &2556239456205568444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,31 +276,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89d70acd01ca1a4c83dfc8f0a00c80a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7786306892935454746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8504770500996690397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6499e9d2a929dc478b11ed143d080cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventSO: {fileID: 11400000, guid: 052350d589d7f2342be9c8d61b941391, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8198881132523678253}
-        m_TargetAssemblyTypeName: Symbol, Assembly-CSharp
-        m_MethodName: AfterFight
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2

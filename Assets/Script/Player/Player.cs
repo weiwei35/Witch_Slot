@@ -4,12 +4,27 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Player : Character
+public class Player : MonoBehaviour
 {
-    public ObjectEventSO StartFightEvent_player;
-    public ObjectEventSO StartFightEvent_enemy;
-    public ObjectEventSO AddFakeFightAmountEvent_player;
-    public ObjectEventSO AddFakeProtectAmountEvent_player;
+    [Header("原始配置文件 (只读模板)")]
+    public CharacterDataSO baseData;
+
+    [HideInInspector] public CharacterDataSO runtimeData; // ✅ 独立副本
+
+    private void Awake()
+    {
+        // 在运行时复制 ScriptableObject 数据
+        runtimeData = Instantiate(baseData);
+    }
+
+    public CharacterDataSO GetData()
+    {
+        return runtimeData;
+    }
+    public PlayerEventSO StartFightEvent_player;
+    public EnemyEventSO StartFightEvent_enemy;
+    public TemporaryEffectEventSO AddFakeFightAmountEvent_player;
+    public TemporaryEffectEventSO AddFakeProtectAmountEvent_player;
     
     public TMP_Text fightText;
     public TMP_Text protectText;
@@ -22,52 +37,56 @@ public class Player : Character
     
     private TemporaryEffect temporaryAttackEffect = null;
     private TemporaryEffect temporaryProtectEffect = null;
-    public void SetFightAmount(object o)
+    public void _SetFightAmount(float o)
     {
-        float amount = (float)o;
-        fightAmount += amount;
-        fightText.text = fightAmount.ToString();
+        GetData().strength += o;
+        fightText.text = GetData().strength.ToString();
+    }
+    public void _SetProtectAmount(float o)
+    {
+        GetData().defense += o;
+        protectText.text = GetData().defense.ToString();
     }
 
-    public void SetProtectAmount(object o)
+    private void Update()
     {
-        float amount = (float)o;
-        protectAmount += amount;
-        protectText.text = protectAmount.ToString();
+        fightText.text = GetData().strength.ToString();
+        protectText.text = GetData().defense.ToString();
     }
 
     public void AddHPCurrent(float amount)
     {
-        currentHP += amount;
-        if(currentHP > maxHP) currentHP = maxHP;
+        GetData().currentHP += amount;
+        if(GetData().currentHP > GetData().maxHP) GetData().currentHP = GetData().maxHP;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
-            GameManager.instance.gameState = GameState.Fighting;
-            StartFightEvent_player.RaiseEvent(this,this);
+            GameStateManager.Instance.SetState(GameState.Fighting);
+            // StartFightEvent_player.RaiseEvent(this,this);
             if (temporaryAttackEffect != null) AddFakeFightAmountEvent_player.RaiseEvent(temporaryAttackEffect, this);
             if (temporaryProtectEffect != null) AddFakeProtectAmountEvent_player.RaiseEvent(temporaryProtectEffect, this);
             Enemy enemy = other.GetComponent<Enemy>();
             StartFightEvent_enemy.RaiseEvent(enemy,this);
+            GameManager.Instance.StartBattle(this, enemy);
         }
     }
 
     public void AddFightAmount(float amount, float time)
     {
         fightTemp += amount;
-        fightAmount += amount;
+        GetData().strength += amount;
         fightResetCounter += time;
-        fightText.text = fightAmount.ToString();
+        fightText.text = GetData().strength.ToString();
     }
     public void AddProtectAmount(float amount, float time)
     {
         protectTemp += amount;
-        protectAmount += amount;
+        GetData().defense += amount;
         protectResetCounter += time;
-        protectText.text = protectAmount.ToString();
+        protectText.text = GetData().defense.ToString();
     }
 
     public void AddFightAmountFake(float amount,TempType type, int time)
@@ -81,30 +100,28 @@ public class Player : Character
 
     public void AfterFight(object o)
     {
-        GameManager.instance.gameState = GameState.Walking;
+        GameStateManager.Instance.SetState(GameState.Walking);
         if(fightResetCounter > 0)
             fightResetCounter--;
         if (fightResetCounter <= 0)
         {
-            fightAmount -= fightTemp;
+            GetData().strength -= fightTemp;
             fightTemp = 0;
-            fightText.text = fightAmount.ToString();
+            fightText.text = GetData().strength.ToString();
             fightResetCounter = 0;
         }
         if(protectResetCounter > 0)
             protectResetCounter--;
         if (protectResetCounter <= 0)
         {
-            protectAmount -= protectTemp;
+            GetData().defense -= protectTemp;
             protectTemp = 0;
-            protectText.text = protectAmount.ToString();
+            protectText.text = GetData().defense.ToString();
             protectResetCounter = 0;
         }
     }
-
-    public void AfterRound(object o)
+    public void _AfterRound(CharacterFight o)
     {
-        PlayerFight playerFight = o as PlayerFight;
-        if (playerFight != null) currentHP = playerFight.CurrentHP;
+        if (o != null) GetData().currentHP = o.Stats.CurrentHP;
     }
 }

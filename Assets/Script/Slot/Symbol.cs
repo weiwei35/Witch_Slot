@@ -1,66 +1,34 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Symbol : MonoBehaviour
 {
-    public SymbolSO symbol;
-    public Image image;
-    public TMP_Text keepTimeText;
+    [Header("数据")]
+    public BaseSymbolSO symbol;   // 由 Reel.Init 注入
 
-    [HideInInspector]
-    public float keepTime;
-    public bool isKeepBooster = false;
+    [Header("可选可视化")]
+    public Image icon;
 
-    private Animator anim;
+    private Animator _anim;
 
-    private void Start()
+    private void Awake()
     {
-        anim = GetComponent<Animator>();
+        _anim = GetComponent<Animator>();
     }
 
-    public void Init(SymbolSO so)
+    public void Init(BaseSymbolSO data)
     {
-        symbol = so;
-        image.sprite = so.symbolSprite;
-        if (so.symbolName != "") GetComponent<UIDescription>().info.Name = so.symbolName;
-        if (so.symbolDesc != "") GetComponent<UIDescription>().info.Description = so.symbolDesc;
+        symbol = data;
 
-        symbol.symbol = this;
-    }
-
-    private void Update()
-    {
-        if(keepTime > 0)
-        {
-            keepTimeText.gameObject.SetActive(true);
-            keepTimeText.text = keepTime.ToString();
-        }
-        else
-        {
-            keepTimeText.gameObject.SetActive(false);
-        }
+        UIDescription tip = GetComponent<UIDescription>();
+        if (icon)  icon.sprite = data.symbolSprite;
+        tip.info.Name  = data.symbolName;
+        tip.info.Description   = data.symbolDesc;
     }
 
-    public void AfterFight()
+    public void ActiveAnim(string triggerName = "Active")
     {
-        if(keepTime > 0 && isKeepBooster)
-            keepTime--;
-        if (keepTime <= 0 && isKeepBooster)
-        {
-            // Destroy(gameObject);
-            GrayAnim();
-        }
-    }
-    public void ActiveAnim()
-    {
-        anim.SetTrigger("active");
-    }
-    public void GrayAnim()
-    {
-        anim.SetTrigger("gray");
+        if (_anim) _anim.SetTrigger(triggerName);
     }
 }

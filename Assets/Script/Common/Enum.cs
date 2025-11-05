@@ -24,12 +24,6 @@ public enum CharacterStateType
     HPMax,
     HPCurrent
 }
-public enum BoosterEffectType
-{
-    Now,
-    InFight,
-    AfterWin
-}
 
 public enum GameState
 {

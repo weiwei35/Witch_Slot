@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0721ed354ee188b4ebc0666fcbdcbe1a, type: 3}
+  m_Name: Reel 1
+  m_EditorClassIdentifier: 
+  symbols:
+  - {fileID: 11400000, guid: 6416ed838ce89bb4e95f6a66aa60c3d3, type: 2}
+  - {fileID: 11400000, guid: 6416ed838ce89bb4e95f6a66aa60c3d3, type: 2}
+  - {fileID: 11400000, guid: b3f7a8c1c3ad2cb4ea8d0982895f2214, type: 2}
+  - {fileID: 11400000, guid: b3f7a8c1c3ad2cb4ea8d0982895f2214, type: 2}
+  - {fileID: 11400000, guid: b3f7a8c1c3ad2cb4ea8d0982895f2214, type: 2}
+  - {fileID: 11400000, guid: b3f7a8c1c3ad2cb4ea8d0982895f2214, type: 2}
+  - {fileID: 11400000, guid: 076fca2342fd315468ea495c8a5fdac7, type: 2}

@@ -1,116 +1,177 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class SlotManager : MonoBehaviour
 {
-    //按下空格开始滚动，再次按下空格依次停下
-    public List<Reel> reels = new List<Reel>();
+    [Header("转盘配置")]
+    public List<Reel> reels = new();
+
+    [Header("滚动参数")]
+    public float totalSpinTime = 3.0f;
+    public float stopDelayBetweenReels = 0.3f;
+
+    [Header("事件引用")]
+    public FloatEventSO SetFightAmountEvent;
+    public FloatEventSO SetProtectAmountEvent;
+
     private float fightAmount;
     private float protectAmount;
 
-    public ObjectEventSO SetFightAmountEvent;
-    public ObjectEventSO SetProtectAmountEvent;
-    
-    private bool isScrolling = false; // 控制滚动是否开始
-    private bool endSlot = false; // 控制是否结束滚动并显示完整节点
-    
-    private List<BoosterSymbolSO> boosters = new List<BoosterSymbolSO>();
-    private void Update()
-    {
-        if(GameManager.instance.gameState != GameState.Slot) return;
-        // 检查空格键的按下状态
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (endSlot)
-            {
-                // 如果滚动已经结束，进行重置
-                foreach (var reel in reels)
-                {
-                    isScrolling = false;
-                    boosters.Clear();
-                    reel.ResetSlot();
-                }
-                isScrolling = true; // 重置后开始滚动
-                endSlot = false;
-            }
-            else if (!isScrolling)
-            {
-                // 如果没有在滚动，按空格开始滚动
-                isScrolling = true;
-            }
-            else
-            {
-                // 如果正在滚动，按空格停止滚动并确保最后一个节点完整显示
-                StartCoroutine(StopReelOneByOne());
-                isScrolling = false;
-                endSlot = true; // 标记滚动结束
-            }
-        }
-        // 如果正在滚动
-        if (isScrolling)
-        {
-            // 向上滚动
-            foreach (var reel in reels)
-            {
-                reel.RollUp();
-            }
-        }
-    }
+    private bool isSpinning = false;
+    private bool endSlot = false;
 
-    IEnumerator StopReelOneByOne()
+    private List<BoosterSymbolSO> activeBoosters = new();
+
+    private int stoppedReelCount = 0;
+
+    private void Start()
     {
         foreach (var reel in reels)
+            reel.OnReelStopped += ProcessVisibleSymbols;
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var reel in reels)
+            reel.OnReelStopped -= ProcessVisibleSymbols;
+    }
+
+    private void Update()
+    {
+        if (!GameStateManager.Instance.Is(GameState.Slot)) return;
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            yield return new WaitForSeconds(0.2f);
-            reel.AdjustContentPositionForCompleteView();
+            if (!isSpinning)
+                StartCoroutine(StartSpinRoutine());
+            else if (endSlot)
+                ResetSlot();
         }
     }
 
-    public void SetSlotResult(int index,float amont)
+    private IEnumerator StartSpinRoutine()
     {
-        if (index == 0)
+        if (isSpinning) yield break;
+
+        isSpinning = true;
+        endSlot = false;
+        stoppedReelCount = 0;
+        activeBoosters.Clear();
+
+        foreach (var reel in reels)
+            reel.StartSpin();
+
+        for (int i = 0; i < reels.Count; i++)
         {
-            fightAmount = amont;
-            SetFightAmountEvent.RaiseEvent(fightAmount,null);
-        }else if (index == 1)
-        {
-            protectAmount = amont;
-            SetProtectAmountEvent.RaiseEvent(protectAmount,null);
-            
-            GameManager.instance.gameState = GameState.Walking;
+            yield return new WaitForSeconds(totalSpinTime + i * stopDelayBetweenReels);
+            reels[i].StopSpin();
         }
     }
 
-    public void SetBoosterResult(BoosterSymbolSO symbol)
+    public void ProcessVisibleSymbols(int reelIndex, List<BaseSymbolSO> visibleSymbols)
     {
-        boosters.Add(symbol);
-        foreach (var effect in symbol.effects)
+        if (visibleSymbols == null || visibleSymbols.Count == 0) return;
+
+        foreach (var symbol in visibleSymbols)
         {
-            if (effect.boosterEffectType == BoosterEffectType.Now)
+            if (symbol is BoosterSymbolSO booster)
             {
-                effect.BoosterAttack();
+                activeBoosters.Add(booster);
             }
-            else if (effect.boosterEffectType == BoosterEffectType.InFight)
+            else if (symbol is NormalSymbolSO normal)
             {
-                effect.BoosterInFight();
-            }
-        }
-    }
-
-    public void WinFight()
-    {
-        foreach (var booster in boosters)
-        {
-            foreach (var effect in booster.effects)
-            {
-                if (effect.boosterEffectType == BoosterEffectType.AfterWin)
+                if (reelIndex == 0)
                 {
-                    effect.BoosterAfterWin();
+                    fightAmount = normal.amount;
+                    SetFightAmountEvent.RaiseEvent(fightAmount, null);
+                }
+                else if (reelIndex == 1)
+                {
+                    protectAmount = normal.amount;
+                    SetProtectAmountEvent.RaiseEvent(protectAmount, null);
                 }
             }
         }
+
+        stoppedReelCount++;
+        if (stoppedReelCount >= reels.Count)
+        {
+            stoppedReelCount = 0;
+            OnAllReelsStopped();
+        }
+    }
+
+    private void OnAllReelsStopped()
+    {
+        // ✅ 1️⃣ 注册所有 Booster（仅一次）
+        foreach (var booster in activeBoosters)
+        {
+            // ✅ 只注册持续型（急速类 Immediate 已即时触发）
+            if (booster.durationType != BoosterDurationType.Immediate)
+            {
+                var effect = new BoosterEffect(booster);
+
+                switch (booster.targetType)
+                {
+                    case BoosterTargetType.Player:
+                    case BoosterTargetType.CurrentEnemy:
+                        GameManager.Instance.globalEffectManager.AddEffect(effect, GameManager.Instance.player.GetData());
+                        break;
+
+                    case BoosterTargetType.AllEnemies:
+                        foreach (var e in GameManager.Instance.ActiveEnemies)
+                            GameManager.Instance.globalEffectManager.AddEffect(effect, e.GetData());
+                        break;
+                }
+            }
+            // ✅ 如果是征服类（OnVictory），延迟触发，不在此执行
+            else
+            {
+                if (booster.triggerTiming == BoosterTriggerTiming.OnVictory)
+                {
+                    Debug.Log($"注册征服类 Booster（延迟生效）：{booster.symbolName}");
+                }
+                else
+                {
+                    Debug.Log($"注册持续 Booster：{booster.symbolName}");
+                }
+            }
+        }
+
+        // ✅ 2️⃣ 立即触发“急速类”效果（即时执行）
+        BoosterTriggerSystem.TriggerBoosters(
+            BoosterTriggerTiming.OnSpinEnd,
+            activeBoosters,
+            GameManager.Instance.player.GetData(),
+            GameManager.Instance.ActiveEnemies
+        );
+
+        // ✅ 3️⃣ 添加到全局 ActiveBoosters 记录中（防重名）
+        foreach (var booster in activeBoosters)
+        {
+            if (!GameManager.Instance.ActiveBoosters.Contains(booster))
+                GameManager.Instance.ActiveBoosters.Add(booster);
+        }
+
+        // 状态恢复
+        isSpinning = false;
+        endSlot = true;
+        GameStateManager.Instance.SetState(GameState.Walking);
+    }
+
+    private void ResetSlot()
+    {
+        StopAllCoroutines();
+        foreach (var reel in reels)
+            reel.ResetSlot();
+
+        fightAmount = 0;
+        protectAmount = 0;
+        activeBoosters.Clear();
+        stoppedReelCount = 0;
+
+        isSpinning = false;
+        endSlot = false;
     }
 }

@@ -1,134 +1,144 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FightSystem : MonoBehaviour
 {
-    // [SerializeField] private TMP_Text battleLog;
+    [Header("UI 控制")]
     [SerializeField] private Button startButton;
-    public GameObject content;
-    public Animator animator;
+    [SerializeField] private Animator animator;
+    [SerializeField] private GameObject content;
+    [SerializeField] private TMP_Text logText;
+
+    [Header("战斗角色引用")]
     public CharacterFight player;
     public CharacterFight enemy;
 
+    [Header("事件引用")]
+    public CharacterFightEventSO WinFightEvent;
+    public CharacterFightEventSO FightRoundEvent;
+
+    private int roundCount = 0;
+    private bool isFighting = false;
     private Enemy currentEnemy;
 
-    public ObjectEventSO WinFightEvent;
-    public ObjectEventSO FightRoundEvent;
-    private void Start()
+    public void ShowFightPanel()
     {
-        startButton.onClick.AddListener(StartBattle);
+        if (startButton != null)
+            startButton.onClick.AddListener(StartBattle);
+        content.SetActive(true);
     }
 
-    public void SetFightState_player(object o)
+    public void Initialize(CharacterFight playerFight, CharacterFight enemyFight, Enemy enemySource)
     {
-        Player playerState = (Player)o;
-        Sprite icon = playerState.GetComponent<SpriteRenderer>().sprite;
-        player.Initialize(playerState.fightAmount,playerState.protectAmount,playerState.maxHP,playerState.currentHP,icon);
+        player = playerFight;
+        enemy = enemyFight;
+        currentEnemy = enemySource;
     }
-    public void SetFightState_enemy(object o)
-    {
-        Enemy enemyState = (Enemy)o;
-        currentEnemy = enemyState;
-        Sprite icon = enemyState.GetComponent<SpriteRenderer>().sprite;
-        enemy.Initialize(enemyState.fightAmount,enemyState.protectAmount,enemyState.maxHP,enemyState.currentHP,icon);
-    }
-    public void ApplyTemporaryAttack_player(object o)
-    {
-        TemporaryEffect temp = (TemporaryEffect)o;
-        player.ApplyTemporaryAttack(temp);
-    }
-    public void ApplyTemporaryProtect_player(object o)
-    {
-        TemporaryEffect temp = (TemporaryEffect)o;
-        player.ApplyTemporaryProtect(temp);
-    }
+
     private void StartBattle()
     {
+        if (isFighting) return;
+
         startButton.interactable = false;
-        AutoScrollLog.instance.AddLog("战斗开始");
-        fightCount = 0;
+        isFighting = true;
+        roundCount = 0;
+
+        AutoScrollLog.instance.AddLog("战斗开始！");
         StartCoroutine(BattleCoroutine());
     }
+
     private IEnumerator BattleCoroutine()
     {
         while (player.IsAlive && enemy.IsAlive)
         {
-            // 玩家攻击
-            float playerDamage = player.Attack(enemy);
-            AutoScrollLog.instance.AddLog($"玩家造成 {playerDamage} 点伤害，敌人生存 {enemy.CurrentHP}/{enemy.MaxHP}");
-            yield return StartCoroutine(ExtraFight());
-            yield return new WaitForSeconds(1);
+            roundCount++;
+
+            // ============================
+            // 玩家攻击阶段
+            // ============================
+            yield return ExecuteAttackPhase(player, enemy, isPlayer: true);
             if (!enemy.IsAlive) break;
-            // 敌人攻击
-            float enemyDamage = enemy.Attack(player);
-            AutoScrollLog.instance.AddLog($"敌人造成 {enemyDamage} 点伤害，玩家生存 {player.CurrentHP}/{player.MaxHP}");
-            yield return new WaitForSeconds(1f);
-            FightRoundEvent.RaiseEvent(player,this);
+
+            // ============================
+            // 敌人攻击阶段
+            // ============================
+            yield return ExecuteAttackPhase(enemy, player, isPlayer: false);
+            if (!player.IsAlive) break;
+
+            // ============================
+            // 回合结束：Booster Tick
+            // ============================
+            GameManager.Instance.OnTurnEnd();
+            FightRoundEvent.RaiseEvent(player, this);
         }
+
+        // ============================
+        // 战斗结果
+        // ============================
         if (player.IsAlive)
         {
-            AutoScrollLog.instance.AddLog("战斗胜利!");
-            // 触发胜利逻辑
-            WinFight();
+            AutoScrollLog.instance.AddLog("战斗胜利！");
+            WinFight(); // ✅ 不再这里触发 OnVictory
         }
         else
         {
-            AutoScrollLog.instance.AddLog("战斗失败!");
-            // 触发失败逻辑
+            AutoScrollLog.instance.AddLog("玩家战败...");
+            LoseFight();
+        }
+
+        isFighting = false;
+    }
+
+    /// <summary>
+    /// 单个攻击阶段执行逻辑（玩家或敌人）
+    /// </summary>
+    private IEnumerator ExecuteAttackPhase(CharacterFight attacker, CharacterFight defender, bool isPlayer)
+    {
+
+        float damage = attacker.Attack(defender);
+
+        // ✅ 若为玩家攻击，则额外伤害会自动在 BoosterEffect 中被触发
+        // （不再手动计算或扣血，BoosterEffect 内部负责调用 CurrentEnemyFight.TakeDamage）
+
+        string attackerName = isPlayer ? "玩家" : "敌人";
+        AutoScrollLog.instance.AddLog($"{attackerName} 造成 {damage} 点伤害，HP：{defender.Stats.CurrentHP}/{defender.Stats.MaxHP}");
+
+        // ✅ 若造成真实伤害，触发受击类 Booster
+        if (damage > defender.Stats.Defense)
+        {
+            GameManager.Instance.TriggerBooster(BoosterTriggerTiming.OnTakeTrueDamage);
+            GameManager.Instance.OnTakeTrueDamageEvent();
+        }
+
+        yield return new WaitForSeconds(0.8f);
+        if(isPlayer)
+        {
+            GameManager.Instance.OnAttackEvent();
+            GameManager.Instance.TriggerBooster(BoosterTriggerTiming.OnAttack);
         }
     }
 
-    public void WinFight()
+    private void WinFight()
     {
         startButton.interactable = true;
         animator.SetTrigger("close");
-        // content.SetActive(false);
-        currentEnemy.Die();
-        WinFightEvent.RaiseEvent(player,this);
+
+        if (currentEnemy != null)
+            Destroy(currentEnemy.gameObject);
+
+        WinFightEvent.RaiseEvent(player, this);
+        GameManager.Instance.EndBattle(true);
         StopAllCoroutines();
     }
 
-    public List<ExtraFightClass> extraFightList = new List<ExtraFightClass>();
-    private int fightCount = 0;
-
-    public void SetExtaList(object o)
+    private void LoseFight()
     {
-        ExtraFightClass extraFightClass = (ExtraFightClass)o;
-        extraFightList.Add(extraFightClass);
-    }
-    public IEnumerator ExtraFight()
-    {
-        fightCount++;
-        bool needReset = false;
-        foreach (var extraFight in extraFightList)
-        {
-            if (extraFight.count == fightCount)
-            {
-                needReset = true;
-                yield return new WaitForSeconds(1f);
-                extraFight.symbol.ActiveAnim();
-                float playerDamage = player.ExtraAttack(enemy,extraFight.fight);
-                AutoScrollLog.instance.AddLog($"玩家额外造成 {playerDamage} 点{extraFight.fightType}类型伤害，敌人生存 {enemy.CurrentHP}/{enemy.MaxHP}");
-                
-                if (!enemy.IsAlive)
-                {
-                    AutoScrollLog.instance.AddLog("战斗胜利!");
-                    // 触发胜利逻辑
-                    WinFight();
-                }
-            }
-        }
-        if(needReset) fightCount = 0;
-    }
-}
+        startButton.interactable = true;
+        animator.SetTrigger("close");
 
-public class ExtraFightClass
-{
-    public int count;
-    public float fight;
-    public FightType fightType;
-    public Symbol symbol;
+        GameManager.Instance.EndBattle(false);
+        StopAllCoroutines();
+    }
 }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb75ab25ccdb619438799c4aac52bcb1, type: 3}
+  m_Name: Enemy 2
+  m_EditorClassIdentifier: 
+  characterName: "\u5C0F\u86C7"
+  icon: {fileID: -2076114174, guid: 64d2069a216d710459bab9ca6a05ecbc, type: 3}
+  strength: 3
+  defense: 2
+  maxHP: 15
+  currentHP: 15

@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "list", menuName = "SymbolList")]
+
+[CreateAssetMenu(menuName = "Game/Symbol List", fileName = "SymbolList")]
 public class SymbolListSO : ScriptableObject
 {
-    [SerializeField]
-    public List<SymbolSO> symbols = new List<SymbolSO>();
+    // 允许列表里混合两种子类（NormalSymbolSO / BoosterSymbolSO）
+    public List<BaseSymbolSO> symbols = new List<BaseSymbolSO>();
 }

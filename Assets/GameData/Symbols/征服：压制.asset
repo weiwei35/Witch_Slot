@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0320ed0a3ad1e644caed52e80e03568f, type: 3}
+  m_Name: "\u5F81\u670D\uFF1A\u538B\u5236"
+  m_EditorClassIdentifier: 
+  symbolName: "\u5F81\u670D\uFF1A\u538B\u5236"
+  symbolDesc: "\u8BA9\u573A\u4E0A\u653B\u51FB\u529B\u6700\u9AD8\u7684\u602A\u7269\u653B\u51FB\u529B\u964D\u4F4E1\u70B9"
+  symbolSprite: {fileID: -926664781, guid: d9eb24e664e703b4bbace904a5038885, type: 3}
+  triggerTiming: 2
+  targetType: 4
+  effectType: 4
+  effectValue: 1
+  duration: 1
+  durationType: 0
+  intervalCount: 0
