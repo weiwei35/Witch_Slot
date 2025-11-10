@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Reel : MonoBehaviour
@@ -37,19 +38,29 @@ public class Reel : MonoBehaviour
 
     private void InitializeSymbols()
     {
+        List<SymbolSO> symbols = symbolListSO.symbols.ToList();
+        foreach (var symbol in symbols)
+        {
+            symbolListSO.symbols.Add(symbol);
+        }
+        foreach (var symbol in symbols)
+        {
+            symbolListSO.symbols.Add(symbol);
+        }
         itemCount = symbolListSO.symbols.Count;
         totalHeight = itemHeight * itemCount;
         content.sizeDelta = new Vector2(content.sizeDelta.x, totalHeight);
 
         items = new Symbol[itemCount];
 
-        for (int i = 0; i < itemCount; i++)
+        for (int i = 0; i < symbolListSO.symbols.Count; i++)
         {
             Symbol slot = Instantiate(symbolPrefab, content);
             slot.Init(symbolListSO.symbols[i]);
             slot.transform.localPosition = new Vector3(0, -i * itemHeight, 0);
             items[i] = slot;
         }
+        
     }
 
     public void ResetSlot()
@@ -144,7 +155,7 @@ public class Reel : MonoBehaviour
 
     private void AdjustContentPositionForCompleteView()
     {
-        float targetPosY = Mathf.Floor(content.anchoredPosition.y / itemHeight) * itemHeight;
+        float targetPosY = Mathf.Floor(content.anchoredPosition.y / itemHeight) * itemHeight+itemHeight*itemCount/3;
         StartCoroutine(SmoothMoveToTargetPosition(targetPosY));
     }
     

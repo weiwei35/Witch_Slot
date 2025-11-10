@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: Reel 1
   m_EditorClassIdentifier: 
   symbols:
-  - {fileID: 11400000, guid: 6f6844be48f4d7b428973c3da7333dca, type: 2}
-  - {fileID: 11400000, guid: 6f6844be48f4d7b428973c3da7333dca, type: 2}
-  - {fileID: 11400000, guid: 6f6844be48f4d7b428973c3da7333dca, type: 2}
-  - {fileID: 11400000, guid: 6450da8fbfe32504fbb788ccc24bf183, type: 2}
+  - {fileID: 11400000, guid: a20d87d4bee7cd0458017205b3f89172, type: 2}
+  - {fileID: 11400000, guid: a20d87d4bee7cd0458017205b3f89172, type: 2}
+  - {fileID: 11400000, guid: 3da5693d6f7587245957adfc3d3b07ad, type: 2}
+  - {fileID: 11400000, guid: a20d87d4bee7cd0458017205b3f89172, type: 2}
+  - {fileID: 11400000, guid: a20d87d4bee7cd0458017205b3f89172, type: 2}
+  - {fileID: 11400000, guid: a20d87d4bee7cd0458017205b3f89172, type: 2}
+  - {fileID: 11400000, guid: 3da5693d6f7587245957adfc3d3b07ad, type: 2}
+  - {fileID: 11400000, guid: a20d87d4bee7cd0458017205b3f89172, type: 2}
+  - {fileID: 11400000, guid: a20d87d4bee7cd0458017205b3f89172, type: 2}
+  - {fileID: 11400000, guid: a20d87d4bee7cd0458017205b3f89172, type: 2}
+  - {fileID: 11400000, guid: 3da5693d6f7587245957adfc3d3b07ad, type: 2}
+  - {fileID: 11400000, guid: a20d87d4bee7cd0458017205b3f89172, type: 2}
