@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba095acf995455945bb5d868da528dc2, type: 3}
+  m_Name: "\u5F81\u670D\uFF1A\u5B88\u5FA1"
+  m_EditorClassIdentifier: 
+  symbolId: victory_guard
+  displayName: "\u5F81\u670D\uFF1A\u5B88\u5FA1"
+  icon: {fileID: 1283525396, guid: d9eb24e664e703b4bbace904a5038885, type: 3}
+  category: 2
+  triggers: 05000000
+  interval: 0
+  isConsumedAfterTrigger: 0
+  needTrigger: 1
+  effects:
+  - effectType: 5
+    value: 3
+    element: 0
+    durationBattles: 0
+    durationAttacks: 0
+    durationHitted: 1
+    removeAfterTrigger: 0
+    target: 0
+  description: "\uFF08\u6BCF\u573A\u80DC\u5229\u89E6\u53D1\uFF09\u4E0B\u573A\u6218\u6597\u73A9\u5BB6\u9996\u56DE\u5408\u83B7\u5F973\u70B9\u4E34\u65F6\u9632\u5FA1\u529B"

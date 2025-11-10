@@ -2,50 +2,80 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
-
-public enum TopicType
-{
-    None,
-    Self,
-    One,
-    HighestHP,
-    HighestFight,
-    All
-}
-
-public enum FightType
-{
-    火焰,潮汐,雷电,自然
-}
-public enum CharacterStateType
-{
-    Fight,
-    Protect,
-    HPMax,
-    HPCurrent
-}
-
 public enum GameState
 {
     Slot,
     Walking,
     Fighting,
 }
-
-public enum TempType
+public enum SymbolCategory
 {
-    Time,
-    GetDamage
+    Normal,     // 固定基础属性
+    Instant,    // 一次性加成，不需要生成buff
+    Booster     // 拥有 trigger + effects
 }
-public class TemporaryEffect
+
+// 触发事件点
+public enum TriggerEvent
 {
-    public float Amount;
-    public TempType Type;
-    public int Round;
-    public TemporaryEffect(float amount,TempType type, [CanBeNull]int time)
+    OnSlotResolved,     // Slot 完成后触发（立即生效）
+    OnCombatStart,      // 战斗开始
+    OnBeforeAttack,     // 玩家攻击前
+    OnAfterAttack,      // 玩家攻击后
+    OnReceiveDamage,    // 玩家受击
+    OnVictory,          // 战斗胜利
+    OnCombatEnd         // 战斗结束
+}
+
+// 效果类型
+public enum EffectType
+{
+    ModifyAttack,       // 修改攻击
+    ModifyDefense,      // 修改防御
+    ModifyHP,           // 修改血量
+    ElementDamage,      // 元素伤害
+    TemporaryAttack,     // 临时攻击
+    TemporaryDefense,     // 临时护甲
+    Damage
+}
+
+// 元素
+public enum DamageElement
+{
+    None,
+    Fire,
+    Water,
+    Lightning,
+    Nature,
+}
+
+// 作用对象
+public enum TargetType
+{
+    Player,
+    AllEnemies,
+    CurrentEnemy,
+    HighHpEnemy,
+    HighAtkEnemy,
+}
+// 用于在战斗核心和 SymbolSystem 之间传递战斗数据
+public struct AttackContextRuntime
+{
+    public CharacterRuntimeData attacker;   // runtime 数据的引用（注意：是引用，不是副本）
+    public CharacterRuntimeData defender;
+    public float baseDamage;
+}
+public class SymbolInstance
+{
+    public SymbolSO config;    // 原始 SO
+    public int row;
+    public int col;
+
+    public SymbolInstance(SymbolSO config, int row, int col)
     {
-        Amount = amount;
-        Type = type;
-        Round = time;
+        this.config = config;
+        this.row = row;
+        this.col = col;
     }
 }
+

@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0721ed354ee188b4ebc0666fcbdcbe1a, type: 3}
+  m_Script: {fileID: 11500000, guid: 19b50868cb1c2c7449e59807426b05f5, type: 3}
   m_Name: Reel 1
   m_EditorClassIdentifier: 
   symbols:
-  - {fileID: 11400000, guid: 6416ed838ce89bb4e95f6a66aa60c3d3, type: 2}
-  - {fileID: 11400000, guid: 6416ed838ce89bb4e95f6a66aa60c3d3, type: 2}
-  - {fileID: 11400000, guid: b3f7a8c1c3ad2cb4ea8d0982895f2214, type: 2}
-  - {fileID: 11400000, guid: b3f7a8c1c3ad2cb4ea8d0982895f2214, type: 2}
-  - {fileID: 11400000, guid: b3f7a8c1c3ad2cb4ea8d0982895f2214, type: 2}
-  - {fileID: 11400000, guid: b3f7a8c1c3ad2cb4ea8d0982895f2214, type: 2}
-  - {fileID: 11400000, guid: 076fca2342fd315468ea495c8a5fdac7, type: 2}
+  - {fileID: 11400000, guid: 6f6844be48f4d7b428973c3da7333dca, type: 2}
+  - {fileID: 11400000, guid: 6f6844be48f4d7b428973c3da7333dca, type: 2}
+  - {fileID: 11400000, guid: 6f6844be48f4d7b428973c3da7333dca, type: 2}
+  - {fileID: 11400000, guid: 6450da8fbfe32504fbb788ccc24bf183, type: 2}

@@ -28,9 +28,9 @@ public class Reel : MonoBehaviour
     private float moveDistance = 0f;
     private float totalHeight;
 
-    public event Action<int, List<BaseSymbolSO>> OnReelStopped;
+    public event Action<int, List<SymbolSO>> OnReelStopped;
 
-    private void Start()
+    private void OnEnable()
     {
         InitializeSymbols();
     }
@@ -147,13 +147,13 @@ public class Reel : MonoBehaviour
         float targetPosY = Mathf.Floor(content.anchoredPosition.y / itemHeight) * itemHeight;
         StartCoroutine(SmoothMoveToTargetPosition(targetPosY));
     }
-
+    
     private IEnumerator SmoothMoveToTargetPosition(float targetPosY)
     {
         float startPosY = content.anchoredPosition.y;
         float elapsed = 0f;
         float duration = 0.3f;
-
+    
         while (elapsed < duration)
         {
             content.anchoredPosition = new Vector2(
@@ -163,22 +163,24 @@ public class Reel : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
+    
         content.anchoredPosition = new Vector2(content.anchoredPosition.x, targetPosY);
         NotifyVisibleSymbols();
     }
-
     private void NotifyVisibleSymbols()
     {
         float contentY = content.anchoredPosition.y;
         int firstVisibleIndex = Mathf.FloorToInt(contentY / itemHeight);
         int lastVisibleIndex = Mathf.FloorToInt((contentY + visibleCount * itemHeight) / itemHeight);
 
-        List<BaseSymbolSO> visibleSymbols = new List<BaseSymbolSO>();
+        List<SymbolSO> visibleSymbols = new List<SymbolSO>();
         for (int i = firstVisibleIndex; i < lastVisibleIndex; i++)
         {
             int index = (i + itemCount) % itemCount;
             visibleSymbols.Add(items[index].symbol);
+            var inst = new SymbolInstance(items[index].symbol, index, reelIndex);
+            // SymbolSystem.Instance.executionQueue.Enqueue(inst);
+            SymbolSystem.Instance.uiLookup.Add(inst,items[index]);
         }
 
         OnReelStopped?.Invoke(reelIndex, visibleSymbols);

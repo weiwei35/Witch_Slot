@@ -35,6 +35,10 @@ public class TipsManager : MonoBehaviour
     /// </summary>
     public void ShowTip(UIDescription info, Vector2 position)
     {
+        if (isVisible)
+        {
+            HideTip();
+        }
         if(info.info.Name == "") return;
         string content = $"<b>{info.info.Name}</b>\n{info.info.Description}";
         tipContent.text = content;

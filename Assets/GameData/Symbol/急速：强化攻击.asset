@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba095acf995455945bb5d868da528dc2, type: 3}
+  m_Name: "\u6025\u901F\uFF1A\u5F3A\u5316\u653B\u51FB"
+  m_EditorClassIdentifier: 
+  symbolId: boost_atk_3
+  displayName: "\u6025\u901F\uFF1A\u5F3A\u5316\u653B\u51FB"
+  icon: {fileID: -1633158653, guid: d9eb24e664e703b4bbace904a5038885, type: 3}
+  category: 2
+  triggers: 00000000
+  interval: 0
+  isConsumedAfterTrigger: 1
+  needTrigger: 0
+  effects:
+  - effectType: 4
+    value: 2
+    element: 0
+    durationBattles: 3
+    durationAttacks: 0
+    removeAfterTrigger: 0
+    target: 0
+  description: "\uFF08\u7ACB\u523B\u751F\u6548\uFF093\u573A\u6218\u6597\u63D0\u5347\u73A9\u5BB62\u70B9\u653B\u51FB\u529B"

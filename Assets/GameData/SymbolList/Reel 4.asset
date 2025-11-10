@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0721ed354ee188b4ebc0666fcbdcbe1a, type: 3}
+  m_Script: {fileID: 11500000, guid: 19b50868cb1c2c7449e59807426b05f5, type: 3}
   m_Name: Reel 4
   m_EditorClassIdentifier: 
   symbols:
-  - {fileID: 11400000, guid: e5d806d9c6290464395121677a0853fb, type: 2}
-  - {fileID: 11400000, guid: e5d806d9c6290464395121677a0853fb, type: 2}
-  - {fileID: 11400000, guid: e5d806d9c6290464395121677a0853fb, type: 2}
-  - {fileID: 11400000, guid: e5d806d9c6290464395121677a0853fb, type: 2}
-  - {fileID: 11400000, guid: e5d806d9c6290464395121677a0853fb, type: 2}
+  - {fileID: 11400000, guid: 449cbf14d42553e46b434e12c9322217, type: 2}
+  - {fileID: 11400000, guid: fc9f21dddfa07af498290eecadeb4d80, type: 2}
+  - {fileID: 11400000, guid: a36c1824f11affe44903b708437be1e4, type: 2}
+  - {fileID: 11400000, guid: d6eb8128fbb46f94bac08026ccc39bb0, type: 2}
