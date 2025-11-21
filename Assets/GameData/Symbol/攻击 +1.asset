@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\u653B\u51FB +1"
   m_EditorClassIdentifier: 
   symbolId: atk_1
-  displayName: "\u653B\u51FB +1"
+  displayName: "\u653B\u51FB"
   icon: {fileID: 693104193, guid: d9eb24e664e703b4bbace904a5038885, type: 3}
   category: 0
   triggers: 00000000
@@ -28,4 +28,4 @@ MonoBehaviour:
     durationAttacks: 0
     durationHitted: 0
     target: 0
-  description: "\u6C38\u4E45\u63D0\u5347\u653B\u51FB\u529B"
+  description: "\u6C38\u4E45\u63D0\u5347\u653B\u51FB\u529B:"

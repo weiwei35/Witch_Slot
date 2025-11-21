@@ -371,7 +371,8 @@ public class SymbolSystem : MonoBehaviour
             case SymbolCategory.Booster:  AddBooster(GameManager.Instance.GetPlayer(),so); break;
         }
     }
-    public Dictionary<SymbolInstance, Symbol> uiLookup = new();
+    // public Dictionary<SymbolInstance, Symbol> uiLookup = new();
+    public Dictionary<SymbolInstance, DiceController> uiLookup = new();
     IEnumerator PlaySymbolAnimation(SymbolInstance inst)
     {
         if (!uiLookup.TryGetValue(inst, out var ui))

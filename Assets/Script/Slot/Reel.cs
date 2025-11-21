@@ -175,8 +175,8 @@ public class Reel : MonoBehaviour
         {
             int index = (i + itemCount) % itemCount;
             visibleSymbols.Add(items[index].symbol);
-            var inst = new SymbolInstance(items[index].symbol, index, reelIndex);
-            SymbolSystem.Instance.uiLookup.Add(inst,items[index]);
+            // var inst = new SymbolInstance(items[index].symbol, index, reelIndex);
+            // SymbolSystem.Instance.uiLookup.Add(inst,items[index]);
         }
 
         OnReelStopped?.Invoke(reelIndex, visibleSymbols);

@@ -102,7 +102,7 @@ public class SlotReel : MonoBehaviour
         isSpinning = false;
         
         var inst = new SymbolInstance(resultSymbol, reelRow, reelColumn);
-        SymbolSystem.Instance.uiLookup.Add(inst,currentSymbol);
+        // SymbolSystem.Instance.uiLookup.Add(inst,currentSymbol);
         OnReelStopped?.Invoke(resultSymbol);
     }
     

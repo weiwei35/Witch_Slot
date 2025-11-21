@@ -9,6 +9,13 @@ public class Enemy : Character
             Destroy(gameObject);
         }
     }
+
+    public override void TakeDamage(float dmg, DamageElement element)
+    {
+        base.TakeDamage(dmg, element);
+        CheckDead();
+    }
+
     public void InitEnemy(CharacterDataSO baseData)
     {
         runtimeData = new CharacterRuntimeData(baseData);
