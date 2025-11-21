@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b8b7a46b2985540af6f76d6b6c865a, type: 3}
+  m_Name: 2_1-1Room
+  m_EditorClassIdentifier: 
+  Level: 2
+  RoomName: 1-1Room
+  Enemies:
+  - Data: {fileID: 11400000, guid: 96c0400f3d852184dab11d1948e9a043, type: 2}
+    PosIndex: 0
+  - Data: {fileID: 11400000, guid: f89b92e9f2e85314f8c6cbe8840afef6, type: 2}
+    PosIndex: 1
+  - Data: {fileID: 11400000, guid: 7c825032afd36b940b603a5081959c1c, type: 2}
+    PosIndex: 2
+  - Data: {fileID: 11400000, guid: 599e766f98a14634ba67536b4ebbf402, type: 2}
+    PosIndex: 3
+  - Data: {fileID: 11400000, guid: 8327d378b9a2eb14e9b0d2343b7263ad, type: 2}
+    PosIndex: 4
+  - Data: {fileID: 11400000, guid: 599e766f98a14634ba67536b4ebbf402, type: 2}
+    PosIndex: 6
+  - Data: {fileID: 11400000, guid: 8327d378b9a2eb14e9b0d2343b7263ad, type: 2}
+    PosIndex: 7
+  - Data: {fileID: 11400000, guid: 96c0400f3d852184dab11d1948e9a043, type: 2}
+    PosIndex: 8
+  - Data: {fileID: 11400000, guid: 27f1238653f3de94481ceb5c3d320fbf, type: 2}
+    PosIndex: 9
+  Items:
+  - Data: {fileID: 11400000, guid: 4b6c3e023937aa6469a7326d0bdefecc, type: 2}
+    PosIndex: 0
+  - Data: {fileID: 11400000, guid: cfb42f46c6f918246976fe2d09209041, type: 2}
+    PosIndex: 1
+  - Data: {fileID: 11400000, guid: b5f56d2113da6864581c36f842e012dd, type: 2}
+    PosIndex: 2
+  - Data: {fileID: 11400000, guid: 845687c5b4847f245a3031301bee5581, type: 2}
+    PosIndex: 3
+  - Data: {fileID: 11400000, guid: cfb42f46c6f918246976fe2d09209041, type: 2}
+    PosIndex: 4
+  Chests:
+  - Data: {fileID: 11400000, guid: d1699324cef07014caf4cf85c4a4e0d4, type: 2}
+    PosIndex: 0
+  - Data: {fileID: 11400000, guid: d1699324cef07014caf4cf85c4a4e0d4, type: 2}
+    PosIndex: 1

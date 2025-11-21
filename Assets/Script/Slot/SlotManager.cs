@@ -57,13 +57,13 @@ public class SlotManager : MonoBehaviour
         endSlot = false;
         stoppedReelCount = 0;
         activeBoosters.Clear();
-
         foreach (var reel in reels)
             reel.StartSpin();
 
+        yield return new WaitForSeconds(totalSpinTime);
         for (int i = 0; i < reels.Count; i++)
         {
-            yield return new WaitForSeconds(totalSpinTime + i * stopDelayBetweenReels);
+            yield return new WaitForSeconds(stopDelayBetweenReels);
             reels[i].StopSpin();
         }
     }
@@ -90,7 +90,7 @@ public class SlotManager : MonoBehaviour
         isSpinning = false;
         endSlot = true;
 
-        SymbolSystem.Instance.ApplySlotResult(finalSymbols);
+        // SymbolSystem.Instance.ApplySlotResult(finalSymbols);
 
         SymbolSystem.Instance.NotifyEvent(TriggerEvent.OnSlotResolved);
 

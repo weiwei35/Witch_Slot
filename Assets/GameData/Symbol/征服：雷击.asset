@@ -26,6 +26,6 @@ MonoBehaviour:
     element: 0
     durationBattles: 0
     durationAttacks: 0
-    removeAfterTrigger: 0
+    durationHitted: 0
     target: 3
   description: "\uFF08\u6BCF\u573A\u80DC\u5229\u89E6\u53D1\uFF09\u5BF9\u6700\u9AD8\u8840\u91CF\u654C\u4EBA\u9020\u62105\u70B9\u4F24\u5BB3"

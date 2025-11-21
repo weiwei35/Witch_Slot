@@ -25,8 +25,7 @@ MonoBehaviour:
     value: 3
     element: 0
     durationBattles: 0
-    durationAttacks: 0
-    durationHitted: 1
-    removeAfterTrigger: 0
+    durationAttacks: 1
+    durationHitted: 0
     target: 0
-  description: "\uFF08\u6BCF\u573A\u80DC\u5229\u89E6\u53D1\uFF09\u4E0B\u573A\u6218\u6597\u73A9\u5BB6\u9996\u56DE\u5408\u83B7\u5F973\u70B9\u4E34\u65F6\u9632\u5FA1\u529B"
+  description: "\uFF08\u6BCF\u573A\u80DC\u5229\u89E6\u53D1\uFF09\u73A9\u5BB6\u83B7\u5F973\u70B9\u4E34\u65F6\u9632\u5FA1\u529B\uFF08\u9996\u6B21\u53D7\u5230\u4F24\u5BB3\u5931\u6548\uFF09"

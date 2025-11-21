@@ -39,8 +39,8 @@ public class CharacterRuntimeData
     }
 
     // ✅ 动态属性（= base + buffs）
-    public float Strength => baseStrength + GetBuffValue(EffectType.TemporaryAttack);
-    public float Defense  => baseDefense + GetBuffValue(EffectType.TemporaryDefense);
+    public float Strength => Mathf.Max(0,baseStrength + GetBuffValue(EffectType.TemporaryAttack));
+    public float Defense  => Mathf.Max(0,baseDefense + GetBuffValue(EffectType.TemporaryDefense));
     public float MaxHP    => baseMaxHP;
     public float CurrentHPPercent => CurrentHP / MaxHP;
 
@@ -153,6 +153,18 @@ public class CharacterRuntimeData
             if(!buffs[i].removeAfterTrigger) continue;
             buffs.RemoveAt(i);
         }
+        OnValueChanged?.Invoke();
+    }
+
+    public void ClearBaseStats()
+    {
+        for (int i = buffs.Count - 1; i >= 0; i--)
+        {
+            buffs.RemoveAt(i);
+        }
+        baseStrength = 0;
+        baseDefense = 0;
+        CurrentHP = baseMaxHP;
         OnValueChanged?.Invoke();
     }
 }

@@ -118,6 +118,7 @@ public class SymbolImporter : EditorWindow
         // so.durationAttacks = 0;
         so.isConsumedAfterTrigger = row.isConsumedAfterTrigger;
         so.description = row.description;
+        so.needTrigger = row.needTrigger;
 
         // ✅ EFFECTS 读取（不再写 durationBattles 等重复字段）
         so.effects = new();

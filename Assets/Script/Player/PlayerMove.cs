@@ -18,6 +18,7 @@ public class PlayerMove : MonoBehaviour
 	public float inputCoolDown = 0.1f;
 	private Vector3 lastValidPosition;
 	private Vector3 targetPosition;
+	public Vector2 lastMoveDir = Vector2.zero;
 	private float lastMoveTime;
     
 	private Queue<Vector3> moveQueue = new Queue<Vector3>();
@@ -88,7 +89,7 @@ public class PlayerMove : MonoBehaviour
 			if(useMoveQueue) moveQueue.Enqueue(direction);
 			return;
 		}
-        
+		lastMoveDir = direction.normalized; // 记录方向
 		StartCoroutine(MoveToGrid(direction));
 	}
 	// 网格精确移动协程
@@ -153,7 +154,8 @@ public class PlayerMove : MonoBehaviour
 			moveQueue.Clear();
 			isMoving = false;
 		}
-		if (other.CompareTag("Enemy") || other.CompareTag("MapWall"))
+
+		if (other.CompareTag("Enemy") || other.CompareTag("MapWall") || other.CompareTag("Door"))
 		{
 			rb.DOComplete();
 			rb.MovePosition(lastValidPosition); // 回退到上次有效位置
@@ -163,7 +165,7 @@ public class PlayerMove : MonoBehaviour
 			isMoving = false;
         
 			// 可选：添加碰撞反馈效果
-			ShakeCamera(0.05f, 0.15f);
+			// ShakeCamera(0.05f, 0.05f);
 		}
 
 	}

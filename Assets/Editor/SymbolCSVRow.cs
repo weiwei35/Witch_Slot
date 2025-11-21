@@ -18,7 +18,7 @@ public class SymbolCSVRow
     public int durationBattles;
     public int durationAttacks;
     public bool isConsumedAfterTrigger;
-    public bool removeAfterTrigger;
+    public bool needTrigger;
     public string description;
 
     public SymbolCSVRow(string csvLine)
@@ -44,8 +44,7 @@ public class SymbolCSVRow
         durationAttacks = SafeInt(cols[i++]);
 
         isConsumedAfterTrigger = SafeBool(cols[i++]);
-        removeAfterTrigger = SafeBool(cols[i++]);
-
+        needTrigger = SafeBool(cols[i++]);
         description = cols[i++].Trim();
     }
 

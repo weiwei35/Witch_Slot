@@ -4,6 +4,8 @@ using JetBrains.Annotations;
 using UnityEngine;
 public enum GameState
 {
+    System,
+    LoadRoom,
     Slot,
     Walking,
     Fighting,

@@ -10,6 +10,7 @@ TagManager:
   - MapWall
   - Enemy
   - TouchableItem
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Interactable
   - 
   - 
   - 

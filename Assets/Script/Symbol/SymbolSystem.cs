@@ -226,6 +226,7 @@ public class SymbolSystem : MonoBehaviour
         foreach (var e in so.effects)
         {
             Character target = SelectTarget(e);
+            if (target == null)  break;
             switch (e.effectType)
             {
                 case EffectType.ElementDamage:
@@ -339,6 +340,7 @@ public class SymbolSystem : MonoBehaviour
             ApplySymbol(inst);
             // yield return new WaitForSeconds(0.1f);
         }
+        GameStateManager.Instance.SetState(GameState.Walking);//结束slot开始探索
     }
     private IEnumerator ResolveSymbols_victory()
     {
@@ -380,5 +382,11 @@ public class SymbolSystem : MonoBehaviour
 
         while (!ui.IsAnimationFinished)
             yield return null;
+    }
+
+    public void ResetSymbols()
+    {
+        uiLookup.Clear();
+        boosters.Clear();
     }
 }

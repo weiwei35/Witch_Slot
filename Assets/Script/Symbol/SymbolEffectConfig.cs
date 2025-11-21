@@ -10,6 +10,5 @@ public class SymbolEffectConfig
     public int durationAttacks = 0;         // 持续 N 次攻击
     public int durationHitted = 0;         // 持续 N 次受击
 
-    public bool removeAfterTrigger = false; // 是否触发一次就移除
     public TargetType target = TargetType.Player;
 }

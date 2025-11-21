@@ -31,22 +31,8 @@ public class Reel : MonoBehaviour
 
     public event Action<int, List<SymbolSO>> OnReelStopped;
 
-    private void OnEnable()
+    public void InitializeSymbols()
     {
-        InitializeSymbols();
-    }
-
-    private void InitializeSymbols()
-    {
-        List<SymbolSO> symbols = symbolListSO.symbols.ToList();
-        foreach (var symbol in symbols)
-        {
-            symbolListSO.symbols.Add(symbol);
-        }
-        foreach (var symbol in symbols)
-        {
-            symbolListSO.symbols.Add(symbol);
-        }
         itemCount = symbolListSO.symbols.Count;
         totalHeight = itemHeight * itemCount;
         content.sizeDelta = new Vector2(content.sizeDelta.x, totalHeight);
@@ -155,7 +141,7 @@ public class Reel : MonoBehaviour
 
     private void AdjustContentPositionForCompleteView()
     {
-        float targetPosY = Mathf.Floor(content.anchoredPosition.y / itemHeight) * itemHeight+itemHeight*itemCount/3;
+        float targetPosY = Mathf.Floor(content.anchoredPosition.y / itemHeight) * itemHeight;
         StartCoroutine(SmoothMoveToTargetPosition(targetPosY));
     }
     
@@ -190,7 +176,6 @@ public class Reel : MonoBehaviour
             int index = (i + itemCount) % itemCount;
             visibleSymbols.Add(items[index].symbol);
             var inst = new SymbolInstance(items[index].symbol, index, reelIndex);
-            // SymbolSystem.Instance.executionQueue.Enqueue(inst);
             SymbolSystem.Instance.uiLookup.Add(inst,items[index]);
         }
 

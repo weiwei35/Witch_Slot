@@ -9,6 +9,7 @@ public class Player : Character
     
     public TMP_Text fightText;
     public TMP_Text protectText;
+    public TMP_Text hpText;
 
     private void Awake()
     {
@@ -16,6 +17,8 @@ public class Player : Character
         
         runtimeData.OnValueChanged += RefreshUI;
         GameManager.Instance.RegisterPlayer(this);
+
+        RefreshUI();
     }
 
     private void OnDestroy()
@@ -40,16 +43,7 @@ public class Player : Character
     {
         fightText.text = runtimeData.Strength.ToString();
         protectText.text = runtimeData.Defense.ToString();
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            GameStateManager.Instance.SetState(GameState.Fighting);
-            Enemy enemy = other.GetComponent<Enemy>();
-            GameManager.Instance.StartBattle(this, enemy);
-        }
+        hpText.text = runtimeData.CurrentHP + " / " + runtimeData.MaxHP;
     }
 
     public void OnBattleEnd()

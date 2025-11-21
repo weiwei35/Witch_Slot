@@ -6,7 +6,7 @@ public class GameStateManager : MonoBehaviour
     public static GameStateManager Instance;
 
     [Header("当前游戏状态")]
-    [SerializeField] private GameState currentState = GameState.Slot;
+    [SerializeField] private GameState currentState;
     public GameState CurrentState => currentState;
 
     /// <summary>

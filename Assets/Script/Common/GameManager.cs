@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,8 @@ public class GameManager : MonoBehaviour
     private Player player;
     private List<Enemy> enemies = new List<Enemy>();
     private Enemy currentEnemy = null;
-
+    private int currentLevel = 1;
+    public event Action OnEnemyDead;
     private void Awake()
     {
         Instance = this;
@@ -28,7 +30,10 @@ public class GameManager : MonoBehaviour
     public void UnregisterEnemy(Enemy enemy)
     {
         if (enemies.Contains(enemy))
+        {
             enemies.Remove(enemy);
+            OnEnemyDead?.Invoke();
+        }
     }
 
     public IReadOnlyList<Enemy> GetEnemies()
@@ -90,5 +95,20 @@ public class GameManager : MonoBehaviour
     public void EndBattle()
     {
         currentEnemy = null;
+    }
+
+    public int GetCurrentLevel()
+    {
+        return currentLevel;
+    }
+
+    public void SetCurrentLevel(int level)
+    {
+        currentLevel = level;
+    }
+    
+    public void SetLoadRoom()
+    {
+        GameStateManager.Instance.SetState(GameState.LoadRoom);
     }
 }
