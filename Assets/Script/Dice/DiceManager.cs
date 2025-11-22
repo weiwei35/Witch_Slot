@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,9 +13,9 @@ public class DiceManager : MonoBehaviour
 
     public List<DiceController> dictList = new List<DiceController>();
     private Dictionary<DiceController,int> diceResults = new Dictionary<DiceController, int>();
-    private int endedDiceCount = 0;
+    private int endedDiceCount;
     public event Action<DiceController,int> OnDiceEnded;
-    private bool isRolling = false;
+    private bool isRolling;
 
     private void Start()
     {

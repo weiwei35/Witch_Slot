@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using TMPro;
 using UnityEngine;
 public enum GameState
 {
@@ -80,4 +82,20 @@ public class SymbolInstance
         this.col = col;
     }
 }
-
+[Serializable]
+public class DiceFace {
+    public FaceDir dir;      // 方便调试的名字 (如 "Top", "Front")
+    public Vector3 localDir; // 面的局部朝向 (如 Vector3.up)
+    public int value;        // 这个面对应的数字
+    public MeshRenderer mesh;
+    public TMP_Text numberText;
+}
+public enum FaceDir
+{
+    Top,    //+Y
+    Bottom, //-Y
+    Front,  //+Z
+    Back,   //-Z
+    Right,  //+X
+    Left,   //-X
+}

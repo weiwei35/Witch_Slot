@@ -11,6 +11,8 @@ TagManager:
   - Enemy
   - TouchableItem
   - Door
+  - AttackArea
+  - DefenceArea
   layers:
   - Default
   - TransparentFX
