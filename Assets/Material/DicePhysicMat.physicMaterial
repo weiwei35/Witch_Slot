@@ -7,7 +7,7 @@ PhysicMaterial:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: DicePhysicMat
-  dynamicFriction: 0.4
+  dynamicFriction: 1
   staticFriction: 0.4
   bounciness: 0.6
   frictionCombine: 0

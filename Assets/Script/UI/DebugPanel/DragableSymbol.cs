@@ -16,8 +16,8 @@ public class DragableSymbol : MonoBehaviour,IBeginDragHandler, IDragHandler, IEn
 
         UIDescription tip = GetComponent<UIDescription>();
         if (icon)  icon.sprite = data.icon;
-        tip.info.Name  = data.displayName;
-        tip.info.Description   = data.description;
+        tip.AddTip(data.displayName,
+            data.description);
     }
     
     public Canvas canvas;

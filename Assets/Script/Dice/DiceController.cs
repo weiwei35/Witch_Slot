@@ -6,9 +6,9 @@ using Random = UnityEngine.Random;
 public class DiceController : MonoBehaviour
 {
     private static readonly int Active = Animator.StringToHash("active");
-    private SymbolSO symbolData;
     [HideInInspector]
     public SymbolSO runtimeSymbolData;
+    public SymbolSO runtimeSymbolData_extra;
     [Header("设置")]
     public float throwForce = 10f;      // 向上抛的力
     public float rollTorque = 20f;      // 旋转的力
@@ -24,6 +24,7 @@ public class DiceController : MonoBehaviour
     bool animFinished;
     public bool IsAnimationFinished => animFinished;
 
+    bool isLanded = false;
     private void Awake()
     {
         _anim = GetComponent<Animator>();
@@ -35,13 +36,7 @@ public class DiceController : MonoBehaviour
     }
     void Start()
     {
-        DiceManager.instance.dictList.Add(this);
         if (rb == null) rb = GetComponent<Rigidbody>();
-    }
-
-    public void ResetDice()
-    {
-        result = 0;
     }
 
     public IEnumerator RollDice()
@@ -111,21 +106,20 @@ public class DiceController : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (!canTrigger) return;
+        if(isLanded) return;
+        int diceType = 0;
         if (other.CompareTag("AttackArea"))
         {
-            DiceArea diceArea = other.GetComponent<DiceArea>();
-            symbolData = diceArea.symbol;
+            diceType = 1;
         }
 
         if (other.CompareTag("DefenceArea"))
         {
-            DiceArea diceArea = other.GetComponent<DiceArea>();
-            symbolData = diceArea.symbol;
+            diceType = 2;
         }
-        
-        runtimeSymbolData = Instantiate(symbolData);
-        DiceManager.instance.OnOnDiceEnded(this,result);
+        DiceManager.instance.OnOnDiceEnded(this,result,diceType);
         Debug.Log("<color=yellow>骰子结果: " + result + "</color>");
         canTrigger = false;
+        isLanded = true;
     }
 }

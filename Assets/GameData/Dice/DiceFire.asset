@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ca6e20d908691e46ba5e578969dea55, type: 3}
+  m_Name: DiceFire
+  m_EditorClassIdentifier: 
+  faces:
+  - dir: 0
+    value: 2
+  - dir: 1
+    value: 2
+  - dir: 2
+    value: 2
+  - dir: 3
+    value: 1
+  - dir: 4
+    value: 1
+  - dir: 5
+    value: 1
+  symbol: {fileID: 0}
+  font: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  texture: {fileID: 2800000, guid: 5448aa157da5fe647be32da884e99c58, type: 3}

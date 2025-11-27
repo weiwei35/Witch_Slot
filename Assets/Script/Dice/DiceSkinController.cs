@@ -13,7 +13,7 @@ public class DiceSkinController : MonoBehaviour
     public DiceData data;
     public DiceFace[] diceFaces;
 
-    private void Start()
+    public void OnEnable()
     {
         InitMesh();
         GetComponent<DiceController>().InitData(diceFaces);

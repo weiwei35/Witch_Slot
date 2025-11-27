@@ -20,11 +20,11 @@ MonoBehaviour:
   - dir: 2
     value: 2
   - dir: 3
-    value: 3
+    value: 1
   - dir: 4
-    value: 3
+    value: 1
   - dir: 5
-    value: 3
+    value: 1
   symbol: {fileID: 0}
-  font: {fileID: 11400000, guid: 1713f6c371e8af84086942ec9c8d4fa9, type: 2}
-  texture: {fileID: 2800000, guid: 602cb87b6a29443b8636370ea0751574, type: 3}
+  font: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  texture: {fileID: 2800000, guid: 283f897e4925411ebbaa758b4cb13fc2, type: 3}

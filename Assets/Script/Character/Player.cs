@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Player : Character
 {
@@ -10,6 +11,7 @@ public class Player : Character
     public TMP_Text fightText;
     public TMP_Text protectText;
     public TMP_Text hpText;
+    public Scrollbar hpSlider;
 
     private void Awake()
     {
@@ -44,6 +46,7 @@ public class Player : Character
         fightText.text = runtimeData.Strength.ToString();
         protectText.text = runtimeData.Defense.ToString();
         hpText.text = runtimeData.CurrentHP + " / " + runtimeData.MaxHP;
+        hpSlider.size= runtimeData.CurrentHP/runtimeData.MaxHP;
     }
 
     public void OnBattleEnd()

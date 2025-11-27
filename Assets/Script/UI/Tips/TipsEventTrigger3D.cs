@@ -15,15 +15,19 @@ public class TipsEventTrigger3D : MonoBehaviour
         description = GetComponent<UIDescription>();
     }
 
-    public void ShowTips()
+    public void SetTips(SymbolSO symbol)
     {
-        description.info.Name = GetComponent<DiceController>().runtimeSymbolData.displayName;
-        description.info.Description = GetComponent<DiceController>().runtimeSymbolData.description;
-        TipsManager.Instance.ShowTip(description, Input.mousePosition);
+        description.AddTip(symbol.displayName,
+            symbol.description);
     }
 
-    private void HideTips()
+    public void ChangeTips(SymbolSO symbol)
     {
-        TipsManager.Instance.HideTip();
+        description.RemoveTip(symbol.displayName);
+        SetTips(symbol);
+    }
+    public void ShowTips()
+    {
+        TipsManager.Instance.ShowTip(description, Input.mousePosition);
     }
 }

@@ -99,3 +99,9 @@ public enum FaceDir
     Right,  //+X
     Left,   //-X
 }
+
+public enum DiceType
+{
+    Attack,
+    Defence
+}

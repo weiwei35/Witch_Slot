@@ -1,68 +1,66 @@
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
-/// <summary>
-/// 全局唯一的提示系统管理器
-/// </summary>
 public class TipsManager : MonoBehaviour
 {
     public static TipsManager Instance;
 
     [SerializeField] private GameObject tipsWindow;
-    [SerializeField] private TextMeshProUGUI tipContent;
+    [SerializeField] private RectTransform contentRoot;
+    [SerializeField] private TextMeshProUGUI tipTextPrefab;
 
-    [SerializeField] private Vector2 offset = new Vector2(20, 20); // 提示偏移量
-    [SerializeField] private float padding = 15f; // 边距防止贴边
+    [SerializeField] private Vector2 offset = new Vector2(20, 20);
+    [SerializeField] private float padding = 15f;
 
-    private bool isVisible = false;
+    private readonly List<TextMeshProUGUI> spawnedTexts = new List<TextMeshProUGUI>();
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Instance = this;
     }
 
     /// <summary>
-    /// 显示 Tip
+    /// 显示多个 Tip
     /// </summary>
-    public void ShowTip(UIDescription info, Vector2 position)
+    public void ShowTip(UIDescription desc, Vector2 position)
     {
-        if (isVisible)
+        ClearOldTexts();
+
+        // 动态根据 desc.tips 生成 Text 行
+        foreach (var tip in desc.tips)
         {
-            HideTip();
+            var text = Instantiate(tipTextPrefab, contentRoot);
+            text.text = $"<b>{tip.Title}</b>\n{tip.Content}";
+            spawnedTexts.Add(text);
         }
-        if(info.info.Name == "") return;
-        string content = $"<b>{info.info.Name}</b>\n{info.info.Description}";
-        tipContent.text = content;
+
+        if (spawnedTexts.Count == 0)
+            return;
 
         tipsWindow.SetActive(true);
-        isVisible = true;
 
-        // 自动调整位置到屏幕内
-        position = ClampToScreenBorder(position, tipsWindow.GetComponent<RectTransform>());
-        tipsWindow.transform.position = position;
+        // UI 自动排版
+        LayoutRebuilder.ForceRebuildLayoutImmediate(contentRoot);
+
+        var finalPos = ClampToScreenBorder(position, tipsWindow.GetComponent<RectTransform>());
+        tipsWindow.transform.position = finalPos;
     }
 
-    /// <summary>
-    /// 隐藏 Tip
-    /// </summary>
     public void HideTip()
     {
         tipsWindow.SetActive(false);
-        isVisible = false;
+        ClearOldTexts();
     }
 
-    /// <summary>
-    /// 防止 Tip 显示在屏幕外
-    /// </summary>
+    private void ClearOldTexts()
+    {
+        foreach (var t in spawnedTexts)
+            if (t != null) Destroy(t.gameObject);
+        spawnedTexts.Clear();
+    }
+
     private Vector2 ClampToScreenBorder(Vector2 pos, RectTransform rect)
     {
         Canvas canvas = GetComponentInParent<Canvas>();

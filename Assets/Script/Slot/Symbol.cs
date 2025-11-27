@@ -24,9 +24,9 @@ public class Symbol : MonoBehaviour
         symbol = data;
 
         UIDescription tip = GetComponent<UIDescription>();
-        if (icon)  icon.sprite = data.icon;
-        tip.info.Name  = data.displayName;
-        tip.info.Description   = data.description;
+        if (icon) icon.sprite = data.icon;
+        tip.AddTip(data.displayName,
+            data.description);
     }
 
     public void SetActiveAnimation(bool active)
